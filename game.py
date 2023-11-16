@@ -6,6 +6,7 @@ haveItem = False
 haveKey = False
 havePotion = False
 win = True
+gameOver = False
 persuaded = False 
 considered = False
 
@@ -22,7 +23,7 @@ infile = open(settingoff, 'r')
 outputFile = infile.read()
 print(outputFile)
 
-while win != False:
+while gameOver != True:
     #first encounter
     isInt = False
 
@@ -45,6 +46,7 @@ while win != False:
     if convertInt == 2:
         print ('you flee')
         win = False
+        gameOver = True
 
     #entering 2
     else:
@@ -189,15 +191,13 @@ while win != False:
                                                 if grylaIncrese >= 3:
                                                     print('you are hit one last time. gryla prevails over you')
                                                     win = False
+                                                    gameOver = True
                                             else:
                                                 print('gryla misses!\n')   
-                                        print('You win! gyla dissapears')  
+                                        print('You win! gyla dissapears') 
+                                        haveKey = True 
                                         print(outputFile)
                                         inBasement = False       
-                                                   
-
-
-         
                                     #persuading    
                                     elif convertInt == 2:
                                         print('you attempt to persuade Gryla')
@@ -249,7 +249,8 @@ while win != False:
                                     #fleeing    
                                     elif convertInt == 4:
                                         print('you flee')
-                                        win = False           
+                                        win = False 
+                                        gameOver = True          
 
                 
 
@@ -296,10 +297,10 @@ while win != False:
                                         infile = open(potion, 'r')    
                                         outputFile = infile.read()
                                         print(outputFile)
-                                        print('you recieve +1 Potion of Protection')
-                                        win = True
-                                else:
-                                    print('there is nothing left in the chest')
+                                        print('you receive +1 Potion of Protection)
+                                if havePotion == True:
+                                    win = True
+                                    gameOver = True        
 
 if win == False:
     print('Game over. You lose')
@@ -309,3 +310,12 @@ else:
     infile = open(win, 'r')    
     outputFile = infile.read()
     print(outputFile)    
+    print('you gained: ')
+    if havePotion == True:
+        print('+1 Potion of Protection')
+    if haveItem == True:
+        print('+1 dagger of oblivion')   
+    if haveKey:
+        print('+1 basement key')     
+
+# https://github.com/dotcoda/game    
