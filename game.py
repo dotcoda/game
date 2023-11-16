@@ -123,134 +123,135 @@ while gameOver != True:
                                 inKitchen = False
                             #stairs
                             elif convertInt == 3:
-                                inKitchen = False
-                                inBasement = True
-                                print('\nyou go down the stairs')
-                                descriptionbasement = 'descriptionbasement.txt'
-                                infile = open(descriptionbasement, 'r')    
-                                outputFile = infile.read()
-                                print(outputFile)
-
-                                #encountering Gryla
-                                while inBasement == True:
-                                    print('What would you like to do?')
-                                    userInput = input('Would you like to attack (1), persuade Gryla (2), consider Gryla more carefully (3), or flee (4)?: ')
-                                    #validating
-                                    try:
-                                        convertInt = int (userInput)
-                                        if convertInt>4:
-                                            print('invalid. try again')
-                                        else:
-                                            isInt = True
-
-                                    except:
-                                        print('invalid. try again')
-
-                                    considered = False    
-
-                                    #gryla moment
-                                    key = 'key.txt'
-                                    infile = open(key, 'r')    
+                                if haveKey == True:
+                                    print('there is nothing left in the basement')
+                                else:
+                                    inKitchen = False
+                                    inBasement = True
+                                    print('\nyou go down the stairs')
+                                    descriptionbasement = 'descriptionbasement.txt'
+                                    infile = open(descriptionbasement, 'r')    
                                     outputFile = infile.read()
- 
-                                    #attacking    
-                                    attackWin = False
-                                    numIncrease = 1
-                                    grylaIncrese = 1
-                                    if convertInt == 1:
-                                        print('\nyou attack')
-                                        while numIncrease <= 2:
-                                            #user roll
-                                            userRoll = random.randrange(int(20))+1
-                                            if haveItem == True:
-                                                userFinal = userRoll + 1
+                                    print(outputFile)
+
+                                    #encountering Gryla
+                                    while inBasement == True:
+                                        print('What would you like to do?')
+                                        userInput = input('Would you like to attack (1), persuade Gryla (2), consider Gryla more carefully (3), or flee (4)?: ')
+                                        #validating
+                                        try:
+                                            convertInt = int (userInput)
+                                            if convertInt>4:
+                                                print('invalid. try again')
                                             else:
-                                                userFinal = userRoll
-                                            print('You roll a', userFinal)
-                                            if userRoll >= 12:
-                                                numIncrease += 1
-                                                print('you hit!\n')
-                                                if userRoll == 20:
-                                                    print('Its a critical hit! gryla dissapears')
-                                                    print(outputFile)
+                                                isInt = True
+
+                                        except:
+                                            print('invalid. try again')
+
+                                        considered = False    
+
+                                        #gryla moment
+                                        key = 'key.txt'
+                                        infile = open(key, 'r')    
+                                        outputFile = infile.read()
+    
+                                        #attacking    
+                                        attackWin = False
+                                        numIncrease = 1
+                                        grylaIncrese = 1
+                                        if convertInt == 1:
+                                            print('\nyou attack')
+                                            while numIncrease <= 2:
+                                                #user roll
+                                                userRoll = random.randrange(int(20))+1
+                                                if haveItem == True:
+                                                    userFinal = userRoll + 1
+                                                else:
+                                                    userFinal = userRoll
+                                                print('You roll a', userFinal)
+                                                if userRoll >= 12:
+                                                    numIncrease += 1
+                                                    print('you hit!\n')
+                                                    if userRoll == 20:
+                                                        print('Its a critical hit! gryla dissapears')
+                                                        numIncrease = 4
+                                                else:
+                                                    print('you miss!\n')  
+                                                #gryla roll
+                                                if numIncrease <= 2:
+                                                    grylaRoll = random.randrange(int(20))+1
+                                                    grylaFinal= grylaRoll - 4
+                                                    if grylaFinal <= 0:
+                                                        print('gryla rolls a 1')
+                                                    else:    
+                                                        print('gryla rolls a', grylaFinal)
+                                                    if grylaFinal >= 12:
+                                                        print('gryla hits!\n')
+                                                        grylaIncrese += 1
+                                                        if grylaIncrese >= 3:
+                                                            print('you are hit one last time. gryla prevails over you')
+                                                            win = False
+                                                            gameOver = True
+                                                    else:
+                                                        print('gryla misses!\n')   
+                                            print('You win! gyla dissapears') 
+                                            haveKey = True 
+                                            print(outputFile)
+                                            inBasement = False       
+                                        #persuading    
+                                        elif convertInt == 2:
+                                            print('you attempt to persuade Gryla')
+                                            if persuaded == False:
+                                                #user roll
+                                                userRoll = random.randrange(int(20))+1
+                                                if haveItem == True:
+                                                    userFinal = userRoll +1
+                                                else:
+                                                    userFinal = userRoll
+                                                #gyrla roll
+                                                grylaRoll = random.randrange(int(20))+1
+                                                grylaFinal = grylaRoll + 4
+                                                if userFinal > grylaFinal: #checking for crit USING IF
                                                     haveKey = True
+                                                    print('Your persuasion works! You are not scared of Gryla. She dissapears!')
+                                                    print(outputFile)
                                                     inBasement = False
-                                                    numIncrease = 4
+                                                else:
+                                                    print('your persuasion did not work\n')    
+                                                persuaded = True
                                             else:
-                                                print('you miss!\n')  
-                                            #gryla roll
-                                            grylaRoll = random.randrange(int(20))+1
-                                            grylaFinal= grylaRoll - 4
-                                            if grylaFinal <= 0:
-                                                print('gryla rolls a 1')
-                                            else:    
-                                                print('gryla rolls a', grylaFinal)
-                                            if grylaFinal >= 12:
-                                                print('gryla hits!\n')
-                                                grylaIncrese += 1
-                                                if grylaIncrese >= 3:
-                                                    print('you are hit one last time. gryla prevails over you')
-                                                    win = False
-                                                    gameOver = True
+                                                print('you cannot do this again.\n')                                                   
+                                        #considering    
+                                        elif convertInt == 3:
+                                            print('you consider Gyla more carefully')
+                                            if considered == False:
+                                                #user roll
+                                                userRoll = random.randrange(int(20))+1
+                                                if haveItem == True:
+                                                    userFinal = userRoll +1
+                                                else:
+                                                    userFinal = userRoll
+                                                #gyrla roll
+                                                grylaRoll = random.randrange(int(20))+1
+                                                grylaFinal = grylaRoll - 2
+                                                if userFinal > grylaFinal: #checking for crit USING IF
+                                                    haveKey = True
+                                                    print('You discover Gryla is cursed. You can cure her.')
+                                                    print(outputFile)
+                                                    inBasement = False
+                                                else:
+                                                    print('you discover nothing\n')    
+                                                considered = True
                                             else:
-                                                print('gryla misses!\n')   
-                                        print('You win! gyla dissapears') 
-                                        haveKey = True 
-                                        print(outputFile)
-                                        inBasement = False       
-                                    #persuading    
-                                    elif convertInt == 2:
-                                        print('you attempt to persuade Gryla')
-                                        if persuaded == False:
-                                            #user roll
-                                            userRoll = random.randrange(int(20))+1
-                                            if haveItem == True:
-                                                userFinal = userRoll +1
-                                            else:
-                                                userFinal = userRoll
-                                            #gyrla roll
-                                            grylaRoll = random.randrange(int(20))+1
-                                            grylaFinal = grylaRoll + 4
-                                            if userFinal > grylaFinal: #checking for crit USING IF
-                                                haveKey = True
-                                                print('Your persuasion works! You are not scared of Gryla. She dissapears!')
-                                                print(outputFile)
-                                                inBasement = False
-                                            else:
-                                                print('your persuasion did not work\n')    
-                                            persuaded = True
-                                        else:
-                                            print('you cannot do this again.\n')                                                   
-                                    #considering    
-                                    elif convertInt == 3:
-                                        print('you consider Gyla more carefully')
-                                        if considered == False:
-                                            #user roll
-                                            userRoll = random.randrange(int(20))+1
-                                            if haveItem == True:
-                                                userFinal = userRoll +1
-                                            else:
-                                                userFinal = userRoll
-                                            #gyrla roll
-                                            grylaRoll = random.randrange(int(20))+1
-                                            grylaFinal = grylaRoll - 2
-                                            if userFinal > grylaFinal: #checking for crit USING IF
-                                                haveKey = True
-                                                print('You discover Gryla is cursed. You can cure her.')
-                                                print(outputFile)
-                                                inBasement = False
-                                            else:
-                                                print('you discover nothing\n')    
-                                            considered = True
-                                        else:
-                                            print('you cannot do this again\n.')
+                                                print('you cannot do this again\n.')
 
 
-                                    #fleeing    
-                                    elif convertInt == 4:
-                                        print('you flee')
-                                        win = False 
-                                        gameOver = True          
+                                        #fleeing    
+                                        elif convertInt == 4:
+                                            print('you flee')
+                                            win = False 
+                                            gameOver = True          
 
                 
 
@@ -297,7 +298,7 @@ while gameOver != True:
                                         infile = open(potion, 'r')    
                                         outputFile = infile.read()
                                         print(outputFile)
-                                        print('you receive +1 Potion of Protection)
+                                        print('you receive +1 Potion of Protection')
                                 if havePotion == True:
                                     win = True
                                     gameOver = True        
