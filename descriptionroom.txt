@@ -1,0 +1,6 @@
+
+you enter the room. it is a dark interior with a messy table, and two doorways
+that lead further to the back of the hovel. There
+are no windows, and everything is shrouded in darkness.
+
+there is a dusty table and two doors. there is a door on the left (3) and a door on the right (4)
